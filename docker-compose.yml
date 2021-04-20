@@ -1,0 +1,30 @@
+version: '3'
+
+services:  
+  tensor:
+    build:
+      context: ./tensor/
+      args:
+        HTTP_PROXY: ${HTTP_PROXY}
+        http_proxy: ${http_proxy}
+        HTTPS_PROXY: ${HTTPS_PROXY}
+        https_proxy: ${https_proxy}
+    tty: true
+    runtime: nvidia
+    environment: 
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      HTTP_PROXY: ${HTTP_PROXY}
+      http_proxy: ${http_proxy}
+      HTTPS_PROXY: ${HTTPS_PROXY}
+      https_proxy: ${https_proxy}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+      DISPLAY: $DISPLAY
+      QT_XKB_CONFIG_ROOT: /usr/share/X11/xkb
+    volumes:
+      - "./data:/data"
+      - "./tf:/tf"
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    ports:
+      - "8888:8888"
